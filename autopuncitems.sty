@@ -1,0 +1,31 @@
+\ProvidesPackage{autopuncitems}
+
+\RequirePackage{enumitem}
+\RequirePackage{luacode}
+
+\luadirect{autopuncitems = require'autopuncitems'}
+
+\newcommand{\APomit}{} % blank flag used in '\item' to hide it from counting and auto
+\newcommand{\APpass}{} % blank flag used in '\item', autopunc is skipped, but count is still
+
+\newcommand{\disableAPautopassnest}{\luadirect{autopuncitems.autopassnested = false}}
+\newcommand{\enableAPautopassnest}{\luadirect{autopuncitems.autopassnested = true}}
+
+\NewDocumentCommand{\setAPeach}{m m m}{\setAPdef{#1}\setAPseclast{#2}\setAPlast{#3}} % set each one, default, second last, last
+\NewDocumentCommand{\setAPall}{m}{\setAPdef{#1}\setAPseclast{#1}\setAPlast{#1}} % set all the same
+\NewDocumentCommand{\setAPdef}{m}{\luadirect{autopuncitems.punc[0] = \luastring{#1}}} % default punc value
+\NewDocumentCommand{\setAPlast}{m}{\luadirect{autopuncitems.punc[1] = \luastring{#1}}} % second last punc value
+\NewDocumentCommand{\setAPseclast}{m}{\luadirect{autopuncitems.punc[2] = \luastring{#1}}} % final punc value
+
+\NewDocumentEnvironment{AutoPuncItemize}{ +b }{
+%   \luadirect{texio.write_nl('auto >>>'..autopuncitems.go(\luastringN{#1}))}
+   \luadirect{tex.print(autopuncitems.go(\luastringN{#1}))}
+}{}
+
+\SetEnumitemKey{autopunc}{
+    first*=\expandafter\AutoPuncItemize,
+    after=\endAutoPuncItemize,
+}
+
+
+

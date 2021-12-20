@@ -1,0 +1,196 @@
+% Kale Ewasiuk (kalekje@gmail.com)
+% +REVDATE+
+% Copyright (C) 2021 Kale Ewasiuk
+%
+% Permission is hereby granted, free of charge, to any person obtaining a copy
+% of this software and associated documentation files (the "Software"), to deal
+% in the Software without restriction, including without limitation the rights
+% to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+% copies of the Software, and to permit persons to whom the Software is
+% furnished to do so, subject to the following conditions:
+%
+% The above copyright notice and this permission notice shall be included in
+% all copies or substantial portions of the Software.
+%
+% THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF
+% ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+% TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+% PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT
+% SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR
+% ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+% ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+% OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
+% OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+\documentclass[11pt,parskip=half]{scrartcl}
+\setlength{\parindent}{0ex}
+\newcommand{\llcmd}[1]{\leavevmode\llap{\texttt{\detokenize{#1}\ }}}
+\newcommand{\cmd}[1]{\texttt{\detokenize{#1}}}
+\newcommand{\qcmd}[1]{``\cmd{#1}''}
+\RequirePackage{url}
+\RequirePackage{xcolor}
+\RequirePackage{showexpl}
+\lstset{explpreset={justification=\raggedright,pos=r,wide=true}}
+\setlength\ResultBoxRule{0mm}
+\lstset{
+	language=[LaTeX]TeX,
+	basicstyle=\ttfamily\small,
+	commentstyle=\ttfamily\small\color{gray},
+	frame=none,
+	numbers=left,
+	numberstyle=\ttfamily\small\color{gray},
+	prebreak=\raisebox{0ex}[0ex][0ex]{\color{gray}\ensuremath{\hookleftarrow}},
+	extendedchars=true,
+	breaklines=true,
+	tabsize=4,
+}
+\addtokomafont{title}{\raggedright}
+\addtokomafont{author}{\raggedright}
+\addtokomafont{date}{\raggedright}
+\author{Kale Ewasiuk (\url{kalekje@gmail.com})}
+\RequirePackage[yyyymmdd]{datetime}\renewcommand{\dateseparator}{--}
+\date{\today}
+
+
+\usepackage{autopuncitems}
+\setlist{nosep}
+
+%\setAPdef{,}
+%\setAPseclast{, and}
+%\setAPlast{!}
+%\setAPall{?}
+
+\begin{document}
+\section{Introduction}
+This package provides the autopunc option in the
+enumitem environemnts itemize, enumerate, and description.
+It uses lua pattern matching to modify the environment's contents.
+
+\section{Options}
+%\APomit
+%\APpass
+%\setAPeach{}{}{}
+%\setAPall{}
+%\setAPdef{}
+%\setAPlast{}
+%\setAPseclast{}
+
+\section{Tutorial}
+\subsection{Basic Use}
+
+\begin{LTXexample}
+\begin{itemize}[autopunc]
+    \item one
+    \item two
+    \item three
+    \item four
+\end{itemize}
+\end{LTXexample}
+
+
+\subsection{Demonstrating Pass}
+
+\begin{LTXexample}
+\begin{itemize}[autopunc]
+    \item one
+    \item two
+    \item three (pass) \APpass
+    \item four
+\end{itemize}
+\end{LTXexample}
+
+\begin{LTXexample}
+\begin{itemize}[autopunc]
+    \item one
+    \item two
+    \item three (pass) \APpass
+    \item four (pass) \APpass
+\end{itemize}
+\end{LTXexample}
+
+
+\subsection{Demonstrating Omit}
+
+\begin{LTXexample}
+\begin{itemize}[autopunc]
+    \item one
+    \item two
+    \item three (omit) \APomit
+    \item four
+\end{itemize}
+\end{LTXexample}
+
+\begin{LTXexample}
+\begin{itemize}[autopunc]
+    \item one
+    \item two
+    \item three (omit) \APomit
+    \item four  (omit) \APomit
+\end{itemize}
+\end{LTXexample}
+
+\subsection{Nested}
+You must use autopunc on each nested list, if you want it auto-punced.
+Currently, APpass should be used on the prior item, otherwise, the
+autopunc item will appear after that item. Perhaps in future versions this will be considered.
+
+\begin{LTXexample}
+\begin{itemize}[autopunc]
+    \item one
+    \item two
+    \item three:
+    \begin{enumerate}[autopunc]
+        \item alpha:
+        \begin{description}[autopunc]
+            \item[hello] world
+        \end{description}
+        \item beta
+        \item delta
+    \end{enumerate}
+    \item four
+\end{itemize}
+\end{LTXexample}
+
+
+\subsubsection{If you forget to use APpass}
+If you disable auto-pass nested lists, and don't use APpass, here is what happens. Notice the extra ``; and''
+\begin{LTXexample}
+\disableAPautopassnest
+\begin{itemize}[autopunc]
+    \item one
+    \item two
+    \item three
+    \begin{enumerate}[autopunc]
+        \item alpha
+        \begin{description}[autopunc]
+            \item[hello] world
+        \end{description}
+        \item beta
+    \end{enumerate}
+    \item four
+\end{itemize}
+\end{LTXexample}
+
+\begin{LTXexample}
+\enableAPautopassnest
+\begin{itemize}[autopunc]
+    \item one
+    \item two
+    \item three
+    \begin{enumerate}
+        \item alpha
+        \begin{description}[autopunc]
+            \item[hello] world
+        \end{description}
+        \item beta
+    \end{enumerate}
+    \item four
+\end{itemize}
+\end{LTXexample}
+
+
+\section{Dependencies}
+
+\end{document}
+
