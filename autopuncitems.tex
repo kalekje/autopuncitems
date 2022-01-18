@@ -56,25 +56,46 @@
 \usepackage{autopuncitems}
 \setlist{nosep}
 
-%\setAPdef{,}
-%\setAPseclast{, and}
-%\setAPlast{!}
-%\setAPall{?}
+\title{autopuncitems}
+
 
 \begin{document}
+\maketitle
+
+{\Huge TODO make an environment that can be used outside of itemize, useful for beamer possibly}
+
 \section{Introduction}
-This package provides the autopunc option in the
-enumitem environemnts itemize, enumerate, and description.
+This package provides environments \cmd{AutoPuncItemize}, \cmd{AutoPuncItemizeO}, and \cmd{AutoPuncItemizeE} (beta)
+to automatically punctuate the items.
+By default, it adds the \cmd{autopunc (O|E)} options in the
+\cmd{enumitem} environments \cmd{itemize}, \cmd{enumerate}, and \cmd{description}, to wrap the contents in these enviroments.
+If you want to skip this (say if you were using the beamer class which
+may be interefered with by enum item), pass the \cmd{noenumitem} option to this package.
 It uses lua pattern matching to modify the environment's contents.
 
-\section{Options}
-%\APomit
-%\APpass
-%\setAPeach{}{}{}
-%\setAPall{}
-%\setAPdef{}
-%\setAPlast{}
-%\setAPseclast{}
+
+
+\section{Some commands}
+\llcmd{\APomit}Used in an \cmd{\item} to signify that that item should not be automatically punctuated, and not be counted. Expands to nothing.\\
+\llcmd{\APpass}Used in an \cmd{\item} to signify that that item should not be automatically punctuated, and but still counted. Expands to nothing.\\
+
+\begin{addmargin}[0.8in]{0in}
+\llcmd{\setAPeach{}{}{}}Set the default, second last, and last punctuation point in that order.\\
+\llcmd{\setAPall{}}Set all punctuation points the same.\\
+\llcmd{\setAPdef{}}Set the default punctuation point. \cmd{;} by default.\\
+\llcmd{\setAPseclast{}}Set the second last punctuation point. \cmd{; and} by default.\\
+\llcmd{\setAPlast{}}Set the second last punctuation point. \cmd{.} by default.\\
+
+\llcmd{\enableAPautopassnest}Automatically put an \cmd{\APpass} on items that introduce a nested list. Default behaviour.\\
+\llcmd{\disableAPautopassnest}Do not automatically put an \cmd{\APpass} on items that introduce a nested list.\\
+
+\end{addmargin}
+
+\section{Variants}
+\llcmd{autopunc}Does not expand the contents of environment. Tutorial on next section shows this.\\
+\llcmd{autopuncO}Expands the contents of environment once. Useful if \cmd{\item}'s are in a command \\
+\llcmd{autopuncE}Fully expands the contents of environment--todo\\
+
 
 \section{Tutorial}
 \subsection{Basic Use}
@@ -95,7 +116,7 @@ It uses lua pattern matching to modify the environment's contents.
 \begin{itemize}[autopunc]
     \item one
     \item two
-    \item three (pass) \APpass
+    \item three \APpass
     \item four
 \end{itemize}
 \end{LTXexample}
@@ -104,8 +125,8 @@ It uses lua pattern matching to modify the environment's contents.
 \begin{itemize}[autopunc]
     \item one
     \item two
-    \item three (pass) \APpass
-    \item four (pass) \APpass
+    \item three \APpass
+    \item four  \APpass
 \end{itemize}
 \end{LTXexample}
 
@@ -116,7 +137,7 @@ It uses lua pattern matching to modify the environment's contents.
 \begin{itemize}[autopunc]
     \item one
     \item two
-    \item three (omit) \APomit
+    \item three \APomit
     \item four
 \end{itemize}
 \end{LTXexample}
@@ -125,15 +146,14 @@ It uses lua pattern matching to modify the environment's contents.
 \begin{itemize}[autopunc]
     \item one
     \item two
-    \item three (omit) \APomit
-    \item four  (omit) \APomit
+    \item three \APomit
+    \item four  \APomit
 \end{itemize}
 \end{LTXexample}
 
 \subsection{Nested}
-You must use autopunc on each nested list, if you want it auto-punced.
-Currently, APpass should be used on the prior item, otherwise, the
-autopunc item will appear after that item. Perhaps in future versions this will be considered.
+You must use \cmd{autopunc} on each nested list if you want that sub-list to be automatically punctuated.
+Note that by default, the item introducing (before) a sub-list will not be automatically punctuated.
 
 \begin{LTXexample}
 \begin{itemize}[autopunc]
@@ -154,7 +174,7 @@ autopunc item will appear after that item. Perhaps in future versions this will 
 
 
 \subsubsection{If you forget to use APpass}
-If you disable auto-pass nested lists, and don't use APpass, here is what happens. Notice the extra ``; and''
+If you disable auto-pass nested lists, and don't use \cmd{\APpass}, here is what happens. Notice the extra ``; and'' below hello world and beta.
 \begin{LTXexample}
 \disableAPautopassnest
 \begin{itemize}[autopunc]
@@ -188,9 +208,6 @@ If you disable auto-pass nested lists, and don't use APpass, here is what happen
     \item four
 \end{itemize}
 \end{LTXexample}
-
-
-\section{Dependencies}
 
 \end{document}
 
