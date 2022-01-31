@@ -1,10 +1,10 @@
 # autopuncitems
 
-Automatically punctuate lists by passing the autopunc option to enumitem lists.
+Automatically punctuate lists by passing the autopunc option to enumitem lists. Requires LuaLaTeX.
 
 # License
 
-Copyright (C) 2021 Kale Ewasiuk
+Copyright (C) 2021-2022 Kale Ewasiuk
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

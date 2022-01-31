@@ -1,6 +1,6 @@
 --% Kale Ewasiuk (kalekje@gmail.com)
 --% +REVDATE+
---% Copyright (C) 2021 Kale Ewasiuk
+--% Copyright (C) 2021-2022 Kale Ewasiuk
 --%
 --% Permission is hereby granted, free of charge, to any person obtaining a copy
 --% of this software and associated documentation files (the "Software"), to deal
@@ -41,6 +41,7 @@ ap.pass = '\\APpass' -- flag for passing item from punc, but still considered in
 ap.code = 0 -- code for skipping punc if > 0, keep in count if == 1, omit from count if == 2
 
 ap.autopassnested = true
+ap.skipnextprot = false
 
 function ap.start(s)
      ap.curr = 0
@@ -70,6 +71,8 @@ function ap.getdelim()
         return d
 end
 
+
+
 function ap.protectnest(s)
     local x = ''
     if ap.autopassnested then x = ap.pass..'{}' end
@@ -88,12 +91,16 @@ end
 
 
 function ap.go(s)
-    s = ap.protectnest(s)
+    if ap.skipnextprot then
+        s =  s:gsub(ap.item, ap.itemp)
+    else
+        s = ap.protectnest(s)
+    end
     ap.start(s) -- start counters
     --texio.write_nl('yooo...'..s)
     s = s:gsub(ap.itemp, '\0\0'):gsub('\0', '', 1)  -- make all items \0\0 then change first item to one \0
     s = s:gsub('(%z)(%Z*)(%z?)',  -- find betwen \0 .. \0
-            function(it, s, _it)  -- discarding duplicate item '_it' that was made in first gsub
+            function(it, s)  -- discarding duplicate item '_it' that was made in first gsub
                 ap.addcount(s) -- add count, helps determine delimiter
                 return ap.rtrim(it..s)..ap.getdelim()..' '
             end

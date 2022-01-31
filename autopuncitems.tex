@@ -1,6 +1,6 @@
 % Kale Ewasiuk (kalekje@gmail.com)
 % +REVDATE+
-% Copyright (C) 2021 Kale Ewasiuk
+% Copyright (C) 2021-2022 Kale Ewasiuk
 %
 % Permission is hereby granted, free of charge, to any person obtaining a copy
 % of this software and associated documentation files (the "Software"), to deal
@@ -62,7 +62,6 @@
 \begin{document}
 \maketitle
 
-{\Huge TODO make an environment that can be used outside of itemize, useful for beamer possibly}
 
 \section{Introduction}
 This package provides environments \cmd{AutoPuncItemize}, \cmd{AutoPuncItemizeO}, and \cmd{AutoPuncItemizeE} (beta)
@@ -70,7 +69,7 @@ to automatically punctuate the items.
 By default, it adds the \cmd{autopunc (O|E)} options in the
 \cmd{enumitem} environments \cmd{itemize}, \cmd{enumerate}, and \cmd{description}, to wrap the contents in these enviroments.
 If you want to skip this (say if you were using the beamer class which
-may be interefered with by enum item), pass the \cmd{noenumitem} option to this package.
+may be interefered with by enum item), pass the \cmd{noenumitem} option to this package. You can still use the environments with beamer, though.
 It uses lua pattern matching to modify the environment's contents.
 
 
@@ -94,7 +93,7 @@ It uses lua pattern matching to modify the environment's contents.
 \section{Variants}
 \llcmd{autopunc}Does not expand the contents of environment. Tutorial on next section shows this.\\
 \llcmd{autopuncO}Expands the contents of environment once. Useful if \cmd{\item}'s are in a command \\
-\llcmd{autopuncE}Fully expands the contents of environment--todo\\
+\llcmd{autopuncE}Fully expands the contents of environment first. This is in-progress and should not be used.\\
 
 
 \section{Tutorial}
@@ -208,6 +207,39 @@ If you disable auto-pass nested lists, and don't use \cmd{\APpass}, here is what
     \item four
 \end{itemize}
 \end{LTXexample}
+
+You may want to use the \cmd{AutoPuncItems} environment outside a list environment instead,
+say perhaps if you're using the \cmd{beamer}.
+Note that  nested lists are normally not punctuated, and since the first-level list is inside the environment, it's considered nested.
+If you would like to disable the prevention of auto-punctuating all nested lists, use the \cmd{\disableAPprotectnest}.
+Note that nested lists will cause an error to occur.
+
+\begin{LTXexample}
+\disableAPprotectnest
+\begin{AutoPuncItems}
+\begin{itemize}
+    \item one
+    \item two
+    \item three
+    \item four
+\end{itemize}
+\end{AutoPuncItems}
+\end{LTXexample}
+
+The normal way to use the environment should be inside the first list, like so.
+
+\begin{LTXexample}
+\enableAPautopassnest % default settn
+\begin{itemize}
+\begin{AutoPuncItems}
+    \item one
+    \item two
+    \item three
+    \item four
+\end{AutoPuncItems}
+\end{itemize}
+\end{LTXexample}
+
 
 \end{document}
 

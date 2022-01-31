@@ -1,6 +1,6 @@
 % Kale Ewasiuk (kalekje@gmail.com)
 % +REVDATE+
-% Copyright (C) 2021 Kale Ewasiuk
+% Copyright (C) 2021-2022 Kale Ewasiuk
 %
 % Permission is hereby granted, free of charge, to any person obtaining a copy
 % of this software and associated documentation files (the "Software"), to deal
@@ -40,6 +40,8 @@
 
 \newcommand{\disableAPautopassnest}{\luadirect{autopuncitems.autopassnested = false}}
 \newcommand{\enableAPautopassnest}{\luadirect{autopuncitems.autopassnested = true}}
+\newcommand{\disableAPprotectnest}{\luadirect{autopuncitems.skipnextprot = true}}
+\newcommand{\enableAPprotectnest}{\luadirect{autopuncitems.skipnextprot = false}}
 
 \NewDocumentCommand{\setAPeach}{m m m}{\setAPdef{#1}\setAPseclast{#2}\setAPlast{#3}} % set each one, default, second last, last
 \NewDocumentCommand{\setAPall}{m}{\setAPdef{#1}\setAPseclast{#1}\setAPlast{#1}} % set all the same
