@@ -74,6 +74,7 @@ It uses lua pattern matching to modify the environment's contents.
 
 
 
+
 \section{Some commands}
 \llcmd{\APomit}Used in an \cmd{\item} to signify that that item should not be automatically punctuated, and not be counted. Expands to nothing.\\
 \llcmd{\APpass}Used in an \cmd{\item} to signify that that item should not be automatically punctuated, and but still counted. Expands to nothing.\\
@@ -95,6 +96,7 @@ It uses lua pattern matching to modify the environment's contents.
 \llcmd{autopuncO}Expands the contents of environment once. Useful if \cmd{\item}'s are in a command \\
 \llcmd{autopuncE}Fully expands the contents of environment first. This is in-progress and should not be used.\\
 
+The \cmd{AutoPuncTabular} environment is used to automaticall punctuate \cmd{\\\\} that end tabular rows.
 
 \section{Tutorial}
 \subsection{Basic Use}
@@ -208,6 +210,50 @@ If you disable auto-pass nested lists, and don't use \cmd{\APpass}, here is what
 \end{itemize}
 \end{LTXexample}
 
+\subsection{Expanding list contents}
+\begin{LTXexample}
+\def\listexample{
+    \item one
+    \item two
+    \item three
+    \item four
+}
+--will work fine (expand once)
+\begin{itemize}[autopuncO]
+    \listexample
+\end{itemize}
+
+--will throw error
+  (author to fix this)
+%\begin{itemize}[autopuncE]
+%    \listexample
+%\end{itemize}
+
+--does not give desired result
+  (no items found)
+\begin{itemize}[autopunc]
+    \listexample
+\end{itemize}
+
+\end{LTXexample}
+
+
+\subsection{Using the environment}
+
+The normal way to use the environment should be inside the first list, like so.
+
+\begin{LTXexample}
+\enableAPautopassnest % default settn
+\begin{itemize}
+\begin{AutoPuncItems}
+    \item one
+    \item two
+    \item three
+    \item four
+\end{AutoPuncItems}
+\end{itemize}
+\end{LTXexample}
+
 You may want to use the \cmd{AutoPuncItems} environment outside a list environment instead,
 say perhaps if you're using the \cmd{beamer}.
 Note that  nested lists are normally not punctuated, and since the first-level list is inside the environment, it's considered nested.
@@ -226,20 +272,19 @@ Note that nested lists will cause an error to occur.
 \end{AutoPuncItems}
 \end{LTXexample}
 
-The normal way to use the environment should be inside the first list, like so.
-
+\subsection{AutoPuncTabular example}
+Here  is an example of how to auto-punctuate a tabular environment.
+You might want to make a list of parameters in equation, for example.
 \begin{LTXexample}
-\enableAPautopassnest % default settn
-\begin{itemize}
-\begin{AutoPuncItems}
-    \item one
-    \item two
-    \item three
-    \item four
-\end{AutoPuncItems}
-\end{itemize}
+\begin{AutoPuncTabular}
+    \begin{tabular}{ll}
+    $\vec E$ & is the electric field vector\\
+    $\vec B$ & is the magnetic field density vector\\
+    $\vec j$ & is the current density vector\\
+    $\rho$ & is the charge density\\
+    \end{tabular}
+\end{AutoPuncTabular}
 \end{LTXexample}
-
 
 \end{document}
 

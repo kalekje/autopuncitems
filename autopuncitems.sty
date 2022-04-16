@@ -68,3 +68,6 @@
         after=\endAutoPuncItemsE,
     }
 }
+
+\NewDocumentEnvironment{AutoPuncTabular}{ +b }{\luadirect{tex.print(autopuncitems.gotab(\luastringN{#1}))}}{} % does not expand
+

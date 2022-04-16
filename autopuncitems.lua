@@ -110,4 +110,17 @@ function ap.go(s)
     return s
 end
 
+function ap.gotab(s)
+    -- very simple, does not work if \\ in tabular, doesn't factor in header or footer
+    local s, c = s:gsub('%s*\\\\', '\0')
+    if c > 2 then
+        s = s:gsub('\0', ap.punc[0]..'\\\\', c-2)
+    end
+    if c > 1 then
+        s = s:gsub('\0', ap.punc[2]..'\\\\', 1)
+    end
+    s = s:gsub('\0', ap.punc[1]..'\\\\', 1)
+    return s
+end
+
 return ap
